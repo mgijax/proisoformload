@@ -40,15 +40,19 @@ OUTPUTDIR=${FILEDIR}/output
 INPUTDIR=${FILEDIR}/input
 export FILEDIR ARCHIVEDIR LOGDIR RPTDIR OUTPUTDIR INPUTDIR
 
+# Downloads
+OBO1FILE_DOWNLOAD=${DATADOWNLOADS}/ftp.pir.georgetown.edu/databases/ontology/pro_obo/pro.obo
+OBO2FILE_DOWNLOAD=${DATADOWNLOADS}/pir.georgetown.edu/projects/pro/pro_wv.obo
+OBO1FILE=${INPUTDIR}/pro.obo
+OBO2FILE=${INPUTDIR}/pro_wv.obo
+export OBO1FILE_DOWNLOAD OBO2FILE_DOWNLOAD
+export OBO1FILE OBO2FILE
+
 # VOCLOAD input file
 INFILE_NAME_VOC=${INPUTDIR}/provoc.txt
-
-export INFILE_NAME_VOC INFILE_NAME 
-
-# Downloads
-OBO1FILE=${DATADOWNLOADS}/ftp.pir.georgetown.edu/databases/ontology/pro_obo/pro.obo
-OBO2FILE=${DATADOWNLOADS}/pir.georgetown.edu/projects/pro/pro_wv.obo
-export OBO1FILE OBO2FILE
+# ANNOTLOAD input file
+ANNOTINPUTFILE=${INPUTDIR}/proannot.txt
+export INFILE_NAME_VOC ANNOTINPUTFILE
 
 #  Complete path name of the log files
 LOG_FILE=${LOGDIR}/proisoform.log
@@ -62,6 +66,9 @@ export LOG_FILE LOG_PROC LOG_DIAG LOG_CUR LOG_VAL LOG_DEBUG
 #  The name of the job stream for the load
 JOBSTREAM=proisoformload
 export JOBSTREAM
+
+JNUMBER="J:232325"
+export JNUMBER
 
 ###########################################################################
 #

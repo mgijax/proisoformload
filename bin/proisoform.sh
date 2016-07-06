@@ -73,7 +73,9 @@ fi
 preload ${OUTPUTDIR}
 
 # run perl script
-echo "Running perl script to generate vocload & annotload txt files" >> ${LOG_DIAG}
+echo "Copy OBO files & running perl script to generate vocload & annotload txt files" >> ${LOG_DIAG}
+cp ${OBO1FILE_DOWNLOAD} ${INPUTDIR}
+cp ${OBO2FILE_DOWNLOAD} ${INPUTDIR}
 perl ${PROISOFORMLOAD}/bin/map_MGI2PRO.pl &>> ${LOG}
 STAT=$?
 checkStatus ${STAT} "${PROISOFORMLOAD}/bin/map_MGI2PRO.pl"

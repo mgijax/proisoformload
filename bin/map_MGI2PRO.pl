@@ -18,9 +18,9 @@ $obo2file = $ENV{'OBO2FILE'};
 # Usage: perl map_MGI2PRO.pl
 #
 
-#open (PRO_ANCS, ">MGI2PRO.txt");
-open (VOCFILE, "> $inputdir/provoc.txt");
-open (ANNOTFILE, "> $inputdir/proannot.txt");
+open (PRO_ANCS, ">MGI2PRO.txt");
+open (VOCFILE, "> $inputdir/provoc.pl.txt");
+open (ANNOTFILE, "> $inputdir/proannot.pl.txt");
 
 %mgi_id = ();
 %generic_id = ();
@@ -40,7 +40,7 @@ my $date = strftime "%m/%d/%Y", localtime;
 		
 ######### map MGI ids to PRO ancestors
 #print header
-        #print PRO_ANCS "mgi_id\tpro_id\tpro_short_name\tpro_name\tpro_synonyms\n";
+        print PRO_ANCS "mgi_id\tpro_id\tpro_short_name\tpro_name\tpro_synonyms\n";
 
 	foreach $query_node (sort keys %nodes) {
 		
@@ -57,15 +57,17 @@ my $date = strftime "%m/%d/%Y", localtime;
 					$synonym_list = join ("|", @synonyms);
 					$print_line = "$mgi_id{$ancestor}\t$query_node\t$short_name\t$node_name\t$synonym_list";
 					$vocfile_line = "${short_name}\t$query_node\tcurrent\t\t$node_name\t\t$synonym_list\t";
-					$annot_line = "$query_node\t$mgi_id{$ancestor}\tJ:232325\tIEA\t\t\tproload\t$date\t\t";
+					$annot_line = "$query_node\t$mgi_id{$ancestor}\tJ:232325\tIEA\t\t\tproisoformload\t$date\t\t";
 
+					#if ($query_node =~ /PR:Q9Z351/) {
 					if (! exists $line_printed{$print_line}) {
-						#print PRO_ANCS "$print_line\n";
+						print PRO_ANCS "$print_line\n";
 						print VOCFILE "$vocfile_line\n";
 						print ANNOTFILE "$annot_line\n";
 						$line_printed{$print_line}++;
 						}
 					}
+					#}
 				}
 			elsif ((exists $generic_id{$ancestor}) and (exists $mgi_id{$generic_id{$ancestor}})){
 				$node_name = $nodes{$query_node}->{"name"};
@@ -78,21 +80,23 @@ my $date = strftime "%m/%d/%Y", localtime;
 					$synonym_list = join ("|", @synonyms);
 					$print_line = "$mgi_id{$generic_id{$ancestor}}\t$query_node\t$short_name\t$node_name\t$synonym_list";
 					$vocfile_line = "${short_name}\t$query_node\tcurrent\t\t$node_name\t\t$synonym_list\t";
-					$annot_line = "$query_node\t$mgi_id{$generic_id{$ancestor}}\tJ:232325\tIEA\t\t\tproload\t$date\t\t";
+					$annot_line = "$query_node\t$mgi_id{$generic_id{$ancestor}}\tJ:232325\tIEA\t\t\tproisoformload\t$date\t\t";
 
+					#if ($query_node =~ /PR:Q9Z351/) {
 					if (! exists $line_printed{$print_line}) {
-						#print PRO_ANCS "$print_line\n";
+						print PRO_ANCS "$print_line\n";
 						print VOCFILE "$vocfile_line\n";
 						print ANNOTFILE "$annot_line\n";
 						$line_printed{$print_line}++;
 						}
 					}
+					#}
 				}
 			
 			}
 		}
 
-#close (PRO_ANCS) || die "PRO_ANCS file was not closed\n";	
+close (PRO_ANCS) || die "PRO_ANCS file was not closed\n";	
 close (VOCFILE) || die "VOCFILE file was not closed\n";	
 close (ANNOTFILE) || die "ANNOTFILE file was not closed\n";	
 exit (0);
@@ -121,9 +125,9 @@ sub parse_obo()
 		}
 	}
 	} #end term test
-     } #end read loop
+    } #end read loop
 
-     close (OBO);
+    close (OBO);
 
     open (OBO, $obo2file) ||print "ontology open error";
     while (<OBO>) {
@@ -179,6 +183,9 @@ sub get_node_info()
 			      "id" => $parent_id,
 			      "type" => $parent_type,
 			      };
+		if ($parent_id =~ "PR:Q9Z351") {
+			print "$parent_id****$node_id\n";
+		}
 	    	push @parent_nodes, $parent;
 	    	}
 	    }
