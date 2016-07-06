@@ -77,7 +77,7 @@ cp -r ${OBO1FILE_DOWNLOAD} ${INPUTDIR}
 cp -r ${OBO2FILE_DOWNLOAD} ${INPUTDIR}
 
 echo "Generating Protein Isoform Ontology input files" >> ${LOG_DIAG}
-${PROISOFORMLOAD}/bin/proisform.py &>> ${LOG}
+${PROISOFORMLOAD}/bin/proisoform.py &>> ${LOG}
 STAT=$?
 checkStatus ${STAT} "${PROISOFORMLOAD}/bin/proisform.py"
 
