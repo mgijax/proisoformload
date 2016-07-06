@@ -74,18 +74,17 @@ preload ${OUTPUTDIR}
 
 # run perl script
 echo "Copy OBO files & running perl script to generate vocload & annotload txt files" >> ${LOG_DIAG}
-cp ${OBO1FILE_DOWNLOAD} ${INPUTDIR}
-cp ${OBO2FILE_DOWNLOAD} ${INPUTDIR}
-perl ${PROISOFORMLOAD}/bin/map_MGI2PRO.pl &>> ${LOG}
-STAT=$?
-checkStatus ${STAT} "${PROISOFORMLOAD}/bin/map_MGI2PRO.pl"
+cp -r ${OBO1FILE_DOWNLOAD} ${INPUTDIR}
+cp -r ${OBO2FILE_DOWNLOAD} ${INPUTDIR}
 
-# sort/uniq file/want uniq rows
-rm -rf ${INPUTDIR}/provoc.txt.uniq
-sort ${INPUTDIR}/provoc.txt | uniq > ${INPUTDIR}/provoc.txt.uniq
+echo "Generating Protein Isoform Ontology input files" >> ${LOG_DIAG}
+${PROISOFORMLOAD}/bin/proisform.py &>> ${LOG}
+STAT=$?
+checkStatus ${STAT} "${PROISOFORMLOAD}/bin/proisform.py"
 
 #
 # run annotation load : delete current data
+# else vocabulary cannot be deleted (referencial integrity)
 #
 cd ${OUTPUTDIR}
 echo "Running Protein Isoform Ontology annotation deletion load" >> ${LOG_DIAG}
