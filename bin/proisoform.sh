@@ -72,7 +72,6 @@ fi
 # sets "JOBKEY"
 preload ${OUTPUTDIR}
 
-# run perl script
 echo "Copy OBO files & running perl script to generate vocload & annotload txt files" >> ${LOG_DIAG}
 cp -r ${OBO1FILE_DOWNLOAD} ${INPUTDIR}
 cp -r ${OBO2FILE_DOWNLOAD} ${INPUTDIR}
