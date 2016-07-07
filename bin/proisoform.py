@@ -8,8 +8,8 @@
 #
 # Inputs:
 #
-#       ${OB  the monthly file
-#       ${OB  the increment file
+#       ${OBO1FILE}  the monthly file
+#       ${OBO2FILE}  the increment file
 #
 # Outputs/Re
 #
@@ -215,8 +215,6 @@ def processOBO(oboFile):
 	    # prId may be in both obo files
 	    #
 	    if prId in nodeLookup:
-	        if prId in ('PR:A2CG49-2'):
-		    p = nodeLookup[prId]
 	        n = nodeLookup[prId]
 	    else:
 	        n = Node(prId)
@@ -251,18 +249,16 @@ def processOBO(oboFile):
         # synonym: "xxxx" EXACT PRO-short-label [PRO:DNx]
 	#
 	elif line.find('synonym:') == 0 and line.find('EXACT PRO-short-label') >= 0:
-            tokens = line.split(' ')
-            n.symbol = tokens[1].replace('"','')
-	    n.synonym.append(tokens[1].replace('"',''))
+            tokens = line.split('"')
+            n.symbol = tokens[1]
+	    n.synonym.append(tokens[1])
 
 	#
-        # synonym: "xxxxx" RELATED []
-        # synonym: "xxxx" EXACT []
+        # synonym: "xxxxx" EXACT []
 	#
-	elif line.find('synonym:') == 0:
-	    if line.find('EXACT [') >= 0 or line.find('RELATED [') >= 0:
-                tokens = line.split(' ')
-	        n.synonym.append(tokens[1].replace('"',''))
+	elif line.find('synonym:') == 0 and line.find('EXACT []') >= 0:
+                tokens = line.split('"')
+	        n.synonym.append(tokens[1])
 
         #
         # foundRelationship
