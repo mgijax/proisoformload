@@ -110,14 +110,6 @@ STAT=$?
 checkStatus ${STAT} "${ANNOTLOAD} ${PROISOFORMLOAD}/annotload.config"
 
 #
-# generate GPI file
-#
-#echo "Running GPI report" >> ${LOG_DIAG}
-#${PROISOFORMLOAD}/bin/rungpireport.csh &>> ${LOG}
-#STAT=$?
-#checkStatus ${STAT} "${PROISOFORMLOAD}/bin/rungpireport.csh"
-
-#
 # run postload cleanup and email logs
 #
 shutDown
