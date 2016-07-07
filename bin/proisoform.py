@@ -4,6 +4,15 @@
 #
 # proisoform.py
 #
+#	build vocabulary & annotation output text files by using the PR obo input files.
+#	this data will be used to generate a GO/GPI file (see reports_db/daily/GO_gpi.py)
+#
+#	PR:xxxx are stored as a simple vocabulary (no DAG)
+#	PR:xxxx/MGI:xxxx associations are stored as Annotations
+#
+#	PR:xxxx has one MGI:xxxx
+#	MGI:xxxx can have >= 1 PR:xxxx
+#
 #       See www.informatics.jax.org/wiki/index.php/sw:Proisoformload
 #
 # Inputs:
@@ -39,6 +48,48 @@
 #       9.  Notes (blank)
 #       10. Logical DB Name of Object (blank)
 #       11. Properties (external ref&=&)
+#
+# add Terms to the nodeLookup:
+#
+#	to be added to nodeLookup, term must contain:
+#		'id: PR:xxxx'
+#		at least one Relationship exists
+#		tag 'only_in_taxon' exists
+#		tag 'is_obsolete = false'
+#
+#	[Term]
+#	id: PR:xxxx
+#	name:
+#	synonym: ... EXACT PRO-short-label 	: used as "symbol" of term
+#	synonym: ... EXACT []			: used as "synonym" of term
+#
+#	Relationships:
+#		is_a: PR:xxxx
+#		intersection_of: PR:xxxx
+#		intersection_of: derives_from PR:xxxx
+#		derives_from PR:xxxx
+#		intersection_of: has_gene_template MGI:xxxx
+#
+#	xref: UniProtKB:xxxx			: if exists, add as Annotation Property
+#
+#	only_in_taxon NCBITaxon:10090		: a real mouse term
+#	only_in_taxon NCBITaxon:		: a non-mouse term
+#
+#	is_obsolete: true			: obsolete terms are not added to the lookup
+#
+# iterate thru nodeLookup:
+#
+#	nodes contain Term, their Parents and other information needed to build 
+#	a vocabulary text file and an annotation text file
+#
+#	if the node contains its MGI:xxxx:
+#		put the node information into the vocabulary & annotation files
+#
+#	else recursively follow each Parent until an MGI:xxxx is found or no more Parents
+#
+#	else next node
+#
+# only nodes that contain a MGI:xxx can be added to the output text files
 #
 # History:
 #
@@ -401,9 +452,6 @@ def processOBO(oboFile):
 #
 def findMgiIdByParent(n):
 
-    #if n.prId in ('PR:000025728'):
-      #print n.toString()
-
     mgiId = ''
 
     # for each parentId in the node
@@ -456,10 +504,6 @@ def printFiles():
     for r in nodeLookup:
 
 	n = nodeLookup[r]
-
-	#if n.prId in ('PR:000037266', 'PR:Q62507'):
-	    #print genericLookup['PR:000002187']
-    	    #print n.toString()
 
 	# find mgiId of term
 	# uses 'findMgiIdByParent() to iterate thru each parentId
