@@ -3,7 +3,7 @@
 #
 # Installation script
 #
-# 1) cp proisoformload.config.default proisoformload.config
+# 1) cp proisoform.config.default proisoform.config
 # 2) Install 
 #
 
@@ -33,7 +33,7 @@ fi
 cd `dirname $0`
 
 # establish the config files
-MAIN_CONFIG=proisoformload.config
+MAIN_CONFIG=proisoform.config
 
 # Make sure config file exists and source it
 if [ -r ${MAIN_CONFIG} ]
