@@ -302,7 +302,6 @@ def processOBO(oboFile):
 	elif line.find('synonym:') == 0 and line.find('EXACT PRO-short-label') >= 0:
             tokens = line.split('"')
             n.symbol = tokens[1]
-	    n.synonym.append(tokens[1])
 
 	#
         # synonym: "xxxxx" EXACT []
