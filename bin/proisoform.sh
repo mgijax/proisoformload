@@ -4,7 +4,7 @@
 ###########################################################################
 #
 #  Purpose:
-# 	This script creates Protein Isoform Ontology vocload and assocload
+# 	This script creates Proteoform vocload and assocload
 #       input file and invokes vocload and assocload
 #
 #  Configuration/Inputs/Outputs:
@@ -76,7 +76,7 @@ echo "Copy OBO files & running perl script to generate vocload & annotload txt f
 cp -r ${OBO1FILE_DOWNLOAD} ${INPUTDIR}
 cp -r ${OBO2FILE_DOWNLOAD} ${INPUTDIR}
 
-echo "Generating Protein Isoform Ontology input files" >> ${LOG_DIAG}
+echo "Generating Proteoform input files" >> ${LOG_DIAG}
 ${PROISOFORMLOAD}/bin/proisoform.py &>> ${LOG}
 STAT=$?
 checkStatus ${STAT} "${PROISOFORMLOAD}/bin/proisform.py"
@@ -86,7 +86,7 @@ checkStatus ${STAT} "${PROISOFORMLOAD}/bin/proisform.py"
 # else vocabulary cannot be deleted (referencial integrity)
 #
 cd ${OUTPUTDIR}
-echo "Running Protein Isoform Ontology annotation deletion load" >> ${LOG_DIAG}
+echo "Running Proteoform annotation deletion load" >> ${LOG_DIAG}
 ${ANNOTLOAD}/annotload.csh ${PROISOFORMLOAD}/annotloaddelete.config &>> ${LOG}
 STAT=$?
 checkStatus ${STAT} "${ANNOTLOAD} ${PROISOFORMLOAD}/annotloaddelete.config"
@@ -95,7 +95,7 @@ checkStatus ${STAT} "${ANNOTLOAD} ${PROISOFORMLOAD}/annotloaddelete.config"
 # run the vocabulary load
 #
 cd ${OUTPUTDIR}
-echo "Running vocload to load Protein Isoform Ontology" >> ${LOG_DIAG}
+echo "Running vocload to load Proteoform" >> ${LOG_DIAG}
 ${VOCLOAD}/runSimpleFullLoad.sh ${PROISOFORMLOAD}/vocload.config &>> ${LOG}
 STAT=$?
 checkStatus ${STAT} "${VOCLOAD}/runSimpleFullLoad.sh ${PROISOFORMLOAD}/vocload.config"
@@ -104,7 +104,16 @@ checkStatus ${STAT} "${VOCLOAD}/runSimpleFullLoad.sh ${PROISOFORMLOAD}/vocload.c
 # run annotation load
 #
 cd ${OUTPUTDIR}
-echo "Running Protein Isoform Ontology annotation load" >> ${LOG_DIAG}
+echo "Running Proteoform annotation load" >> ${LOG_DIAG}
+${ANNOTLOAD}/annotload.csh ${PROISOFORMLOAD}/annotload.config &>> ${LOG}
+STAT=$?
+checkStatus ${STAT} "${ANNOTLOAD} ${PROISOFORMLOAD}/annotload.config"
+
+#
+# run gpi report
+#
+cd ${OUTPUTDIR}
+echo "Running Proteoform annotation load" >> ${LOG_DIAG}
 ${ANNOTLOAD}/annotload.csh ${PROISOFORMLOAD}/annotload.config &>> ${LOG}
 STAT=$?
 checkStatus ${STAT} "${ANNOTLOAD} ${PROISOFORMLOAD}/annotload.config"
