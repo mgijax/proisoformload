@@ -77,7 +77,7 @@ export JNUMBER
 ###########################################################################
 
 #  The name of the load for the subject of an email notification
-MAIL_LOADNAME="Protein Isoform Ontology Load"
+MAIL_LOADNAME="Proteoform Load"
 
 export MAIL_LOADNAME
 
