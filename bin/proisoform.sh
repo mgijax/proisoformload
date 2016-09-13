@@ -110,15 +110,6 @@ STAT=$?
 checkStatus ${STAT} "${ANNOTLOAD} ${PROISOFORMLOAD}/annotload.config"
 
 #
-# run gpi report
-#
-cd ${OUTPUTDIR}
-echo "Running Proteoform annotation load" >> ${LOG_DIAG}
-${ANNOTLOAD}/annotload.csh ${PROISOFORMLOAD}/annotload.config &>> ${LOG}
-STAT=$?
-checkStatus ${STAT} "${ANNOTLOAD} ${PROISOFORMLOAD}/annotload.config"
-
-#
 # run postload cleanup and email logs
 #
 shutDown
