@@ -457,6 +457,8 @@ def findMgiIdByParent(n):
 
     for p1 in n.parentId:
 
+	#print 'p1: ' + p1
+
 	# get the node of the parentId
 	# the parent may not be in nodeLookup
 	# so check mgiLookup...
