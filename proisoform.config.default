@@ -41,9 +41,9 @@ INPUTDIR=${FILEDIR}/input
 export FILEDIR ARCHIVEDIR LOGDIR RPTDIR OUTPUTDIR INPUTDIR
 
 # Downloads
-OBO1FILE_DOWNLOAD=${DATADOWNLOADS}/purl.obolibrary.org/obo/pro_reasoned.obo
+OBO1FILE_DOWNLOAD=${DATADOWNLOADS}/purl.obolibrary.org/obo/pr.obo
 OBO2FILE_DOWNLOAD=${DATADOWNLOADS}/pir.georgetown.edu/projects/pro/pro_wv.obo
-OBO1FILE=${INPUTDIR}/pro_reasoned.obo
+OBO1FILE=${INPUTDIR}/pr.obo
 OBO2FILE=${INPUTDIR}/pro_wv.obo
 export OBO1FILE_DOWNLOAD OBO2FILE_DOWNLOAD
 export OBO1FILE OBO2FILE
