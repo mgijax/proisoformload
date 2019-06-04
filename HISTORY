@@ -1,5 +1,10 @@
-${MIRROR_WGET}/download_package ftp.pir.georgetown.edu.proisoform
-${MIRROR_WGET}/download_package pir.georgetown.edu.proisoform
+${MIRROR_WGET}/download_package purl.obolibrary.org
+
+TAG: proisoformload-6-0-14-1
+DATE: 06/04/2019
+STAFF: lec 
+CHANGES: TR13052
+changed : OBO2FILE_DOWNLOAD variable
 
 TAG: proisoformload-6-0-11-2
 DATE: 03/28/2018
