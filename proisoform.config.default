@@ -42,7 +42,7 @@ export FILEDIR ARCHIVEDIR LOGDIR RPTDIR OUTPUTDIR INPUTDIR
 
 # Downloads
 OBO1FILE_DOWNLOAD=${DATADOWNLOADS}/purl.obolibrary.org/obo/pr.obo
-OBO2FILE_DOWNLOAD=${DATADOWNLOADS}/purl.obolibrary.org/obo//pr/pr-dev.obo
+OBO2FILE_DOWNLOAD=${DATADOWNLOADS}/purl.obolibrary.org/obo/pr/pr-dev.obo
 OBO1FILE=${INPUTDIR}/pr.obo
 OBO2FILE=${INPUTDIR}/pr-dev.obo
 export OBO1FILE_DOWNLOAD OBO2FILE_DOWNLOAD

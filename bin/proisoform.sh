@@ -77,7 +77,7 @@ cp -r ${OBO1FILE_DOWNLOAD} ${INPUTDIR}
 cp -r ${OBO2FILE_DOWNLOAD} ${INPUTDIR}
 
 echo "Generating Proteoform input files" >> ${LOG_DIAG}
-${PROISOFORMLOAD}/bin/proisoform.py &>> ${LOG}
+${PYTHON} ${PROISOFORMLOAD}/bin/proisoform.py &>> ${LOG}
 STAT=$?
 checkStatus ${STAT} "${PROISOFORMLOAD}/bin/proisform.py"
 
