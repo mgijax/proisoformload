@@ -295,6 +295,20 @@ def processOBO(oboFile):
             n.name = line[6:]
 
         #
+        # skip "(human)"
+        #
+        if n.name.find('(human)') > 0:
+            continue
+
+        #
+        # skip coronavirus
+        #
+
+        #if (n.name.find('coronavirus') > 0 or n.name.find('SARS-CoV-2') > 0):
+        #    print(n.prId, n.name)
+        #    continue
+
+        #
         # use this as the symbol 
         # synonym: "xxxx" EXACT PRO-short-label [PRO:DNx]
         #
@@ -456,7 +470,7 @@ def findMgiIdByParent(n):
 
     for p1 in n.parentId:
 
-        #print 'p1: ' + p1
+        #print('p1: ' + p1)
 
         # get the node of the parentId
         # the parent may not be in nodeLookup
