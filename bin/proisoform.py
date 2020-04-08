@@ -295,6 +295,12 @@ def processOBO(oboFile):
 	if line.find('name:') == 0:
 	    n.name = line[6:]
 
+        #
+        # skip "(human)"
+        #
+        if n.name.find('(human)') > 0:
+            continue
+
 	#
 	# use this as the symbol 
         # synonym: "xxxx" EXACT PRO-short-label [PRO:DNx]
