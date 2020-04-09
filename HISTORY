@@ -1,5 +1,10 @@
 ${MIRROR_WGET}/download_package purl.obolibrary.org.pr.obo
 
+TAG: proisoformload-6-0-14-4
+DATE: 04/06/2020
+STAFF: lec 
+CHANGES: TR13299/GO/Proisoform input file issue
+
 TAG: proisoformload-6-0-14-3
 TAG: proisoformload-6-0-14-2
 TAG: proisoformload-6-0-14-1

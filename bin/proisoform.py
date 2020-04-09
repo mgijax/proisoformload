@@ -288,25 +288,16 @@ def processOBO(oboFile):
             continue
 
         #
-        # found proper term, continue
+        # skip if not '(mouse)'
         #
-
-        if line.find('name:') == 0:
-            n.name = line[6:]
-
-        #
-        # skip "(human)"
-        #
-        if n.name.find('(human)') > 0:
+        if n.name.find('(mouse)') < 0:
             continue
 
         #
-        # skip coronavirus
+        # found proper term, continue
         #
-
-        #if (n.name.find('coronavirus') > 0 or n.name.find('SARS-CoV-2') > 0):
-        #    print(n.prId, n.name)
-        #    continue
+        if line.find('name:') == 0:
+            n.name = line[6:]
 
         #
         # use this as the symbol 
