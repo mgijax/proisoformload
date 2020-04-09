@@ -288,16 +288,23 @@ def processOBO(oboFile):
             continue
 
         #
-        # skip if not '(mouse)'
+        # if not (mouse)
         #
-        if n.name.find('(mouse)') < 0:
+        if line.find('name:') >= 0 and line.find('(mouse)') < 0:
             continue
 
         #
         # found proper term, continue
         #
+
         if line.find('name:') == 0:
             n.name = line[6:]
+
+        #
+        # skip "(human)"
+        #
+        if n.name.find('(human)') > 0:
+            continue
 
         #
         # use this as the symbol 
@@ -461,7 +468,7 @@ def findMgiIdByParent(n):
 
     for p1 in n.parentId:
 
-        #print('p1: ' + p1)
+        #print 'p1: ' + p1
 
         # get the node of the parentId
         # the parent may not be in nodeLookup
