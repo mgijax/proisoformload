@@ -575,6 +575,6 @@ def closeFiles():
 
 initialize()
 processOBO(obo1File)
-processOBO(obo2File)
+#processOBO(obo2File)
 printFiles()
 closeFiles()
