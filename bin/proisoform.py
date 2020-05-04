@@ -148,7 +148,7 @@ def processGPI():
         if taxon == 'taxon:10090' and mgiId.find('MGI:') >= 0 :
             mgiId = tokens[8].replace('MGI:MGI:', 'MGI:')
             vocFile.write(vocLine % (symbol, prId))
-            annotFile.write(annotLine % (prId, mgiId[0], loadjnumber, loadprovider, loaddate, externalRef + prId.replace('PR:', 'UniProtKB:')))
+            annotFile.write(annotLine % (prId, mgiId, loadjnumber, loadprovider, loaddate, externalRef + prId.replace('PR:', 'UniProtKB:')))
 
     return
 
