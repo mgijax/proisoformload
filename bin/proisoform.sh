@@ -73,8 +73,7 @@ fi
 preload ${OUTPUTDIR}
 
 echo "Copy OBO files & running perl script to generate vocload & annotload txt files" >> ${LOG_DIAG}
-cp -r ${OBO1FILE_DOWNLOAD} ${INPUTDIR}
-cp -r ${OBO2FILE_DOWNLOAD} ${INPUTDIR}
+cp -r ${GPIFILE_DOWNLOAD} ${INPUTDIR}
 
 echo "Generating Proteoform input files" >> ${LOG_DIAG}
 ${PYTHON} ${PROISOFORMLOAD}/bin/proisoform.py &>> ${LOG}
