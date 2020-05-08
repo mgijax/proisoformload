@@ -93,7 +93,7 @@ loaddate = ''
 externalRef = 'external ref&=&'
 
 # symbol, prId
-vocLine = '%s\t%s\tcurrent\t\t\t\t\t\n'
+vocLine = '%s\t%s\tcurrent\t\t%s\t\t%s\t\n'
 
 # prId, mgiId, date
 annotLine = '%s\t%s\t%s\tNAS\t\t\t%s\t%s\t\t\t%s\n'
@@ -178,6 +178,8 @@ def processGPI():
         tokens = line.split('\t')
         prId = tokens[0] + ':' + tokens[1]
         symbol = tokens[2]
+        name = tokens[3]
+        synonym = tokens[4]
         taxon = tokens[6]
         try:
             mgiId = tokens[8].replace('MGI:MGI:', 'MGI:')
@@ -187,11 +189,11 @@ def processGPI():
         # mouse only
         #
         if taxon == 'taxon:10090' and mgiId.find('MGI:') >= 0 and mgiId.find('|') >= 0:
-            cur.write(line + "\n")
+            curFile.write(line + "\n")
             continue
 
         if taxon == 'taxon:10090' and mgiId.find('MGI:') >= 0 and mgiId.find('|') < 0:
-            vocFile.write(vocLine % (symbol, prId))
+            vocFile.write(vocLine % (symbol, prId, name, synonym))
             annotFile.write(annotLine % (prId, mgiId, loadjnumber, loadprovider, loaddate, externalRef + prId.replace('PR:', 'UniProtKB:')))
 
     return
