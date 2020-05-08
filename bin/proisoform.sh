@@ -72,7 +72,7 @@ fi
 # sets "JOBKEY"
 preload ${OUTPUTDIR}
 
-echo "Copy OBO files & running perl script to generate vocload & annotload txt files" >> ${LOG_DIAG}
+echo "Copy GPI files & running perl script to generate vocload & annotload txt files" >> ${LOG_DIAG}
 cp -r ${GPIFILE_DOWNLOAD} ${INPUTDIR}
 
 echo "Generating Proteoform input files" >> ${LOG_DIAG}

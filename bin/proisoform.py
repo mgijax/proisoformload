@@ -73,8 +73,12 @@
 
 import sys 
 import os
+import db
+import mgi_utils
 import loadlib
 
+diagFile = ''
+curFile = ''
 gpiFileName = ''
 gpiFile = ''
 
@@ -104,13 +108,15 @@ externalRef = 'external ref&=&'
 vocLine = '%s\t%s\tcurrent\t\t%s\t\t%s\t\n'
 
 # prId, mgiId, date
-annotLine = '%s\t%s\t%s\tIEA\t\t\t%s\t%s\t\t\t%s\n'
+#annotLine = '%s\t%s\t%s\tNAS\t\t\t%s\t%s\t\t\t%s\n'
+annotLine = '%s\t%s\t%s\tNAS\t\t\t%s\t%s\t\t\t\n'
 
 #
 # Purpose: Initialization
 #
 def initialize():
 
+    global diagFile, curFile
     global gpiFileName, gpiFile
     global vocFileName, vocFile
     global annotFileName, annotFile
@@ -120,6 +126,8 @@ def initialize():
     # open files
     #
 
+    diagFileName = os.environ['LOG_DIAG']
+    curFileName = os.environ['LOG_CUR']
     gpiFileName = os.environ['GPIFILE']
     vocFileName = os.environ['INFILE_NAME_VOC']
     annotFileName = os.environ['ANNOTINPUTFILE']
@@ -128,9 +136,44 @@ def initialize():
     loadprovider = os.path.basename(os.environ['PROISOFORMLOAD'])
     loaddate = loadlib.loaddate
 
-    gpiFile = open(gpiFileName, 'r')
-    vocFile = open(vocFileName, 'w')
-    annotFile = open(annotFileName, 'w')
+    try:
+        diagFile = open(diagFileName, 'w')
+    except:
+        exit(1, 'Could not open file %s\n' % diagFileName)
+            
+    try:
+        curFile = open(curFileName, 'w')
+    except:
+        exit(1, 'Could not open file %s\n' % curFileName)
+            
+    try:
+        gpiFile = open(gpiFileName, 'r')
+    except:
+        exit(1, 'Could not open file %s\n' % gpiFileName)
+            
+    try:
+        vocFile = open(vocFileName, 'w')
+    except:
+        exit(1, 'Could not open file %s\n' % vocFileName)
+            
+    try:
+        annotFile = open(annotFileName, 'w')
+    except:
+        exit(1, 'Could not open file %s\n' % annotFileName)
+            
+    # Log all SQL 
+    db.set_sqlLogFunction(db.sqlLogAll)
+
+    # Set Log File Descriptor
+    db.set_commandLogFile(diagFileName)
+
+    # Set Log File Descriptor
+    diagFile.write('Start Date/Time: %s\n' % (mgi_utils.date()))
+    diagFile.write('Server: %s\n' % (db.get_sqlServer()))
+    diagFile.write('Database: %s\n' % (db.get_sqlDatabase()))
+    diagFile.write('Input File: %s\n' % (gpiFileName))
+    curFile.write('Start Date/Time: %s\n' % (mgi_utils.date()))
+    curFile.write('\nRows with > 1 MGI:xxxx\n')
 
     return
 
@@ -141,11 +184,11 @@ def processGPI():
 
     for line in gpiFile.readlines():
 
-        if line[0] == '!':
+        if line.find('!') >= 0:
             continue
 
         line = line.strip()
-        tokens = line[:-1].split('\t')
+        tokens = line.split('\t')
         prId = tokens[0] + ':' + tokens[1]
         symbol = tokens[2]
         name = tokens[3]
@@ -155,13 +198,17 @@ def processGPI():
             mgiId = tokens[8].replace('MGI:MGI:', 'MGI:')
         except:
             mgiId = ''
-
         #
         # mouse only
         #
+        if taxon == 'taxon:10090' and mgiId.find('MGI:') >= 0 and mgiId.find('|') >= 0:
+            curFile.write(line + "\n")
+            continue
+
         if taxon == 'taxon:10090' and mgiId.find('MGI:') >= 0 and mgiId.find('|') < 0:
             vocFile.write(vocLine % (symbol, prId, name, synonym))
-            annotFile.write(annotLine % (prId, mgiId, loadjnumber, loadprovider, loaddate, externalRef + prId.replace('PR:', 'UniProtKB:')))
+            #annotFile.write(annotLine % (prId, mgiId, loadjnumber, loadprovider, loaddate, externalRef + prId.replace('PR:', 'UniProtKB:')))
+            annotFile.write(annotLine % (prId, mgiId, loadjnumber, loadprovider, loaddate))
 
     return
 
@@ -170,6 +217,11 @@ def processGPI():
 #
 def closeFiles():
 
+    diagFile.flush()
+    curFile.flush()
+    diagFile.write('\n\nEnd Date/Time: %s\n' % (mgi_utils.date()))
+    diagFile.close()
+    curFile.close()
     gpiFile.close()
     vocFile.close()
     annotFile.close()
@@ -183,3 +235,4 @@ def closeFiles():
 initialize()
 processGPI()
 closeFiles()
+

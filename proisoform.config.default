@@ -55,16 +55,17 @@ export INFILE_NAME_VOC ANNOTINPUTFILE
 LOG_FILE=${LOGDIR}/proisoform.log
 LOG_PROC=${LOGDIR}/proisoform.proc.log
 LOG_DIAG=${LOGDIR}/proisoform.diag.log
+LOG_ERROR=${LOGDIR}/proisoform.error.log
 LOG_CUR=${LOGDIR}/proisoform.cur.log
 LOG_VAL=${LOGDIR}/proisoform.val.log
 LOG_DEBUG=false
-export LOG_FILE LOG_PROC LOG_DIAG LOG_CUR LOG_VAL LOG_DEBUG
+export LOG_FILE LOG_PROC LOG_DIAG LOG_ERROR LOG_CUR LOG_VAL LOG_DEBUG
 
 #  The name of the job stream for the load
 JOBSTREAM=proisoformload
 export JOBSTREAM
 
-JNUMBER="J:232325"
+JNUMBER="J:155221"
 export JNUMBER
 
 ###########################################################################
@@ -77,6 +78,15 @@ export JNUMBER
 MAIL_LOADNAME="Proteoform Load"
 
 export MAIL_LOADNAME
+
+# Curator log is emailed
+if [ "${INSTALL_TYPE}" = "dev" ]
+then
+MAIL_LOG_CUR="${USER}"
+else
+MAIL_LOG_CUR="${USER},harold.drabkin@jax.org"
+fi
+export MAIL_LOG_CUR
 
 INSTALLDIR=${PROISOFORMLOAD}
 export INSTALLDIR
