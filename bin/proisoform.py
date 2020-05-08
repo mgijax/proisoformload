@@ -17,6 +17,20 @@
 #
 #       ${GPIFILE}
 #
+# Columns:
+# 
+#    name                   required? cardinality   GAF column #  Note
+#    DB                     required  1             1
+#    DB_Object_ID           required  1             2/17
+#    DB_Object_Symbol       required  1             3             Based on the PRO-short-label
+#    DB_Object_Name         optional  0 or greater  10
+#    DB_Object_Synonym(s)   optional  0 or greater  11            Only exact synonyms are given
+#    DB_Object_Type         required  1             12            Will always be 'protein' or 'protein_complex' for PRO terms
+#    Taxon                  required  1             13
+#    Parent_Object_ID       optional  0 or 1        -             Blank if DB_Object_ID refers to a canonical entity, otherwise it will be an ancestral identifier (in the ontological sense) that refers to the canonical entity class.
+#    DB_Xref(s)             optional  0 or greater  -             The gene(s) encoding the DB_Object_ID; multiple genes are separated by pipes
+#    Properties             optional  0 or greater  -   
+#
 # Outputs/Re
 #
 # 	The loader format has the following columns:
@@ -86,8 +100,8 @@ loaddate = ''
 # xref -> "external ref" for annotation
 externalRef = 'external ref&=&'
 
-# symbol, prId
-vocLine = '%s\t%s\tcurrent\t\t\t\t\t\n'
+# symbol, prId, synonym
+vocLine = '%s\t%s\tcurrent\t\t%s\t\t%s\t\n'
 
 # prId, mgiId, date
 annotLine = '%s\t%s\t%s\tIEA\t\t\t%s\t%s\t\t\t%s\n'
@@ -134,6 +148,8 @@ def processGPI():
         tokens = line[:-1].split('\t')
         prId = tokens[0] + ':' + tokens[1]
         symbol = tokens[2]
+        name = tokens[3]
+        synonym = tokens[4]
         taxon = tokens[6]
         try:
             mgiId = tokens[8].replace('MGI:MGI:', 'MGI:')
@@ -144,7 +160,7 @@ def processGPI():
         # mouse only
         #
         if taxon == 'taxon:10090' and mgiId.find('MGI:') >= 0 and mgiId.find('|') < 0:
-            vocFile.write(vocLine % (symbol, prId))
+            vocFile.write(vocLine % (symbol, prId, name, synonym))
             annotFile.write(annotLine % (prId, mgiId, loadjnumber, loadprovider, loaddate, externalRef + prId.replace('PR:', 'UniProtKB:')))
 
     return
