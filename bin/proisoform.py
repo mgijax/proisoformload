@@ -96,7 +96,8 @@ externalRef = 'external ref&=&'
 vocLine = '%s\t%s\tcurrent\t\t%s\t\t%s\t\n'
 
 # prId, mgiId, date
-annotLine = '%s\t%s\t%s\tNAS\t\t\t%s\t%s\t\t\t%s\n'
+#annotLine = '%s\t%s\t%s\tNAS\t\t\t%s\t%s\t\t\t%s\n'
+annotLine = '%s\t%s\t%s\tNAS\t\t\t%s\t%s\t\t\t\n'
 
 #
 # Purpose: Initialization
@@ -194,7 +195,8 @@ def processGPI():
 
         if taxon == 'taxon:10090' and mgiId.find('MGI:') >= 0 and mgiId.find('|') < 0:
             vocFile.write(vocLine % (symbol, prId, name, synonym))
-            annotFile.write(annotLine % (prId, mgiId, loadjnumber, loadprovider, loaddate, externalRef + prId.replace('PR:', 'UniProtKB:')))
+            #annotFile.write(annotLine % (prId, mgiId, loadjnumber, loadprovider, loaddate, externalRef + prId.replace('PR:', 'UniProtKB:')))
+            annotFile.write(annotLine % (prId, mgiId, loadjnumber, loadprovider, loaddate))
 
     return
 
