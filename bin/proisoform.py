@@ -96,8 +96,7 @@ externalRef = 'external ref&=&'
 vocLine = '%s\t%s\tcurrent\t\t%s\t\t%s\t\n'
 
 # prId, mgiId, date
-#annotLine = '%s\t%s\t%s\tNAS\t\t\t%s\t%s\t\t\t%s\n'
-annotLine = '%s\t%s\t%s\tNAS\t\t\t%s\t%s\t\t\t\n'
+annotLine = '%s\t%s\t%s\tNAS\t\t\t%s\t%s\t\t\t%s\n'
 
 #
 # Purpose: Initialization
@@ -161,7 +160,6 @@ def initialize():
     diagFile.write('Database: %s\n' % (db.get_sqlDatabase()))
     diagFile.write('Input File: %s\n' % (gpiFileName))
     curFile.write('Start Date/Time: %s\n' % (mgi_utils.date()))
-    curFile.write('\nRows with > 1 MGI:xxxx\n')
 
     return
 
@@ -178,6 +176,7 @@ def processGPI():
         line = line.strip()
         tokens = line.split('\t')
         prId = tokens[0] + ':' + tokens[1]
+        uniprotId = tokens[1]
         symbol = tokens[2]
         name = tokens[3]
         synonym = tokens[4]
@@ -189,14 +188,41 @@ def processGPI():
         #
         # mouse only
         #
-        if taxon == 'taxon:10090' and mgiId.find('MGI:') >= 0 and mgiId.find('|') >= 0:
+        if taxon != 'taxon:10090':
+            continue
+
+        #
+        # missing MGI:xxxx
+        #
+        if mgiId.find('MGI:') < 0:
+            curFile.write('missing MGI:xxxx\n')
             curFile.write(line + "\n")
             continue
 
-        if taxon == 'taxon:10090' and mgiId.find('MGI:') >= 0 and mgiId.find('|') < 0:
-            vocFile.write(vocLine % (symbol, prId, name, synonym))
-            #annotFile.write(annotLine % (prId, mgiId, loadjnumber, loadprovider, loaddate, externalRef + prId.replace('PR:', 'UniProtKB:')))
-            annotFile.write(annotLine % (prId, mgiId, loadjnumber, loadprovider, loaddate))
+        #
+        # 1 mouse only
+        #
+        if mgiId.find('|') > 1:
+            curFile.write('> 1 mouse MGI:xxx\n')
+            curFile.write(line + "\n")
+            continue
+
+        #
+        # check if UniProtKB sequence exists
+        #
+        results = '''select * from ACC_Accession where _mgitype_key = 19 and accid = '%s' ''' % (uniprotId)
+        if len(results) == 0:
+            print(uniprotId)
+            curFile.write('uniprotKB not found in MGI\n')
+            curFile.write(line + "\n")
+            continue
+
+        property = ''
+        if prId[0] != '0':
+            property = externalRef + 'UniProtKB:' + uniprotId
+
+        vocFile.write(vocLine % (symbol, prId, name, synonym))
+        annotFile.write(annotLine % (prId, mgiId, loadjnumber, loadprovider, loaddate, property))
 
     return
 
