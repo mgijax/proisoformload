@@ -196,7 +196,7 @@ def processGPI():
         #
         if mgiId.find('MGI:') < 0:
             curFile.write('missing MGI:xxxx\n')
-            curFile.write(line + "\n")
+            curFile.write(line + "\n\n")
             continue
 
         #
@@ -204,7 +204,7 @@ def processGPI():
         #
         if mgiId.find('|') > 1:
             curFile.write('> 1 mouse MGI:xxx\n')
-            curFile.write(line + "\n")
+            curFile.write(line + "\n\n")
             continue
 
         #
@@ -213,7 +213,7 @@ def processGPI():
         results = '''select * from ACC_Accession where _mgitype_key = 19 and accid = '%s' ''' % (uniprotId)
         if len(results) == 0:
             curFile.write('uniprotKB not found in MGI\n')
-            curFile.write(line + "\n")
+            curFile.write(line + "\n\n")
             continue
 
         property = ''
