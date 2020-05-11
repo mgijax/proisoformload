@@ -159,7 +159,7 @@ def initialize():
     diagFile.write('Server: %s\n' % (db.get_sqlServer()))
     diagFile.write('Database: %s\n' % (db.get_sqlDatabase()))
     diagFile.write('Input File: %s\n' % (gpiFileName))
-    curFile.write('Start Date/Time: %s\n' % (mgi_utils.date()))
+    curFile.write('Start Date/Time: %s\n\n' % (mgi_utils.date()))
 
     return
 
@@ -212,13 +212,12 @@ def processGPI():
         #
         results = '''select * from ACC_Accession where _mgitype_key = 19 and accid = '%s' ''' % (uniprotId)
         if len(results) == 0:
-            print(uniprotId)
             curFile.write('uniprotKB not found in MGI\n')
             curFile.write(line + "\n")
             continue
 
         property = ''
-        if prId[0] != '0':
+        if prId[3] != '0':
             property = externalRef + 'UniProtKB:' + uniprotId
 
         vocFile.write(vocLine % (symbol, prId, name, synonym))
