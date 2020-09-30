@@ -234,7 +234,6 @@ def processGPI():
             gpi2File.write('\t')
             gpi2File.write('\t')
             gpi2File.write('\n')
-            continue
 
         #
         # missing MGI:xxxx
