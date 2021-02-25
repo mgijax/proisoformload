@@ -19,17 +19,18 @@
 #
 # Columns:
 # 
-#    name                   required? cardinality   GAF column #  Note
-#    DB                     required  1             1
-#    DB_Object_ID           required  1             2/17
-#    DB_Object_Symbol       required  1             3             Based on the PRO-short-label
-#    DB_Object_Name         optional  0 or greater  10
-#    DB_Object_Synonym(s)   optional  0 or greater  11            Only exact synonyms are given
-#    DB_Object_Type         required  1             12            Will always be 'protein' or 'protein_complex' for PRO terms
-#    Taxon                  required  1             13
-#    Parent_Object_ID       optional  0 or 1        -             Blank if DB_Object_ID refers to a canonical entity, otherwise it will be an ancestral identifier (in the ontological sense) that refers to the canonical entity class.
-#    DB_Xref(s)             optional  0 or greater  -             The gene(s) encoding the DB_Object_ID; multiple genes are separated by pipes
-#    Properties             optional  0 or greater  -   
+# !!   Col#  name                                cardinality   Note
+# !!    1    DB_Object_ID                        1
+# !!    2    DB_Object_Symbol                    1             Based on the PRO-short-label
+# !!    3    DB_Object_Name                      0 or greater
+# !!    4    DB_Object_Synonyms                  0 or greater  Only exact synonyms are given
+# !!    5    DB_Object_Type                      1             Will always be PR:000000001 (protein) or GO:0032991 (protein-containing complex) for PRO terms
+# !!    6    DB_Object_Taxon                     1
+# !!    7    Encoded_By                          0 or greater  The gene(s) encoding the DB_Object_ID; multiple genes are separated by pipes
+# !!    8    Parent_Protein                      0 or greater  Blank if DB_Object_ID refers to a canonical entity, otherwise it will be an ancestral identifier (in the ontological sense) that refers to the canonical entity class.
+# !!    9    Protein_Containing_Complex_Members  0 or greater
+# !!   10    DB_Xref(s)                          0 or greater
+# !!   11    Gene_Product_Properties   
 #
 # Outputs/Re
 #
@@ -201,21 +202,21 @@ def processGPI():
 
         line = line.strip()
         tokens = line.split('\t')
-        prId = tokens[0] + ':' + tokens[1]
-        uniprotId = tokens[1]
-        symbol = tokens[2]
-        name = tokens[3]
-        synonym = tokens[4]
-        prtype = tokens[5]
-        taxon = tokens[6]
+        prId = tokens[0]
+        uniprotId = prId.replace('PR:', '')
+        symbol = tokens[1]
+        name = tokens[2]
+        synonym = tokens[3]
+        prtype = tokens[4]
+        taxon = tokens[5]
         try:
-            mgiId = tokens[8].replace('MGI:MGI:', 'MGI:')
+            mgiId = tokens[6].replace('MGI:MGI:', 'MGI:')
         except:
             mgiId = ''
         #
         # mouse only
         #
-        if taxon != 'taxon:10090':
+        if taxon != 'NCBITaxon:10090':
             continue
 
         #
