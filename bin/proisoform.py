@@ -19,17 +19,17 @@
 #
 # Columns:
 # 
-# !!   Col#  name                                cardinality   Note
-# !!    1    DB_Object_ID                        1
-# !!    2    DB_Object_Symbol                    1             Based on the PRO-short-label
-# !!    3    DB_Object_Name                      0 or greater
-# !!    4    DB_Object_Synonyms                  0 or greater  Only exact synonyms are given
-# !!    5    DB_Object_Type                      1             Will always be PR:000000001 (protein) or GO:0032991 (protein-containing complex) for PRO terms
-# !!    6    DB_Object_Taxon                     1
-# !!    7    Encoded_By                          0 or greater  The gene(s) encoding the DB_Object_ID; multiple genes are separated by pipes
-# !!    8    Parent_Protein                      0 or greater  Blank if DB_Object_ID refers to a canonical entity, otherwise it will be an ancestral identifier (in the ontological sense) that refers to the canonical entity class.
+# !!   Col#  name                   cardinality   Note
+# !!    1    DB_Object_ID           1
+# !!    2    DB_Object_Symbol       1             Based on the PRO-short-label
+# !!    3    DB_Object_Name         0 or greater
+# !!    4    DB_Object_Synonyms     0 or greater  Only exact synonyms are given
+# !!    5    DB_Object_Type         1             Will always be PR:000000001 (protein) or GO:0032991 (protein-containing complex) for PRO terms
+# !!    6    DB_Object_Taxon        1
+# !!    7    Encoded_By             0 or greater  The gene(s) encoding the DB_Object_ID; multiple genes are separated by pipes
+# !!    8    Parent_Protein         0 or greater  Blank if DB_Object_ID refers to a canonical entity, otherwise it will be an ancestral identifier (in the ontological sense) that refers to the canonical entity class.
 # !!    9    Protein_Containing_Complex_Members  0 or greater
-# !!   10    DB_Xref(s)                          0 or greater
+# !!   10    DB_Xref(s)             0 or greater
 # !!   11    Gene_Product_Properties   
 #
 # Outputs/Re
@@ -216,6 +216,7 @@ def processGPI():
             mgiId = tokens[6].replace('MGI:MGI:', 'MGI:')
         except:
             mgiId = ''
+
         #
         # mouse only
         #
@@ -226,7 +227,6 @@ def processGPI():
         # missing MGI:xxxx && protein_complex
         #
         if mgiId.find('MGI:') < 0 and prtype == 'protein_complex':
-            taxon = taxon.replace('taxon', 'NCBITaxon')
             gpi2File.write(prId + '\t')
             gpi2File.write(symbol + '\t')
             gpi2File.write(name + '\t')
