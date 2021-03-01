@@ -63,6 +63,9 @@
 #
 # History:
 #
+# 03/01/2021    lec
+#       TR13469/proisoformload/GAF2.2 changes
+#
 # 08/12/2020    lec
 #       TR13272/added OUTPUT_GPI2 file
 #
