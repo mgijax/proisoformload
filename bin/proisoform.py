@@ -66,9 +66,6 @@
 # 03/01/2021    lec
 #       TR13469/proisoformload/GAF2.2 changes
 #
-# 08/12/2020    lec
-#       TR13272/added OUTPUT_GPI2 file
-#
 # 05/04/2020	lec
 #       TR13299/switch to use the PRO/GPI
 #
@@ -99,10 +96,6 @@ annotFileName = ''
 # annotation file pointer
 annotFile = ''
 
-# output files
-gpi2FileName = ''
-gpi2File = ''
-
 # load J:
 loadjnumber = ''
 
@@ -131,7 +124,6 @@ def initialize():
     global vocFileName, vocFile
     global annotFileName, annotFile
     global loadjnumber, loadprovider, loaddate
-    global gpi2FileName, gpi2File
 
     #
     # open files
@@ -142,7 +134,6 @@ def initialize():
     gpiFileName = os.environ['GPIFILE']
     vocFileName = os.environ['INFILE_NAME_VOC']
     annotFileName = os.environ['ANNOTINPUTFILE']
-    gpi2FileName = os.environ['OUTPUT_GPI2']
 
     loadjnumber = os.environ['JNUMBER']
     loadprovider = os.path.basename(os.environ['PROISOFORMLOAD'])
@@ -172,11 +163,6 @@ def initialize():
         annotFile = open(annotFileName, 'w')
     except:
         exit(1, 'Could not open file %s\n' % annotFileName)
-            
-    try:
-        gpi2File = open(gpi2FileName, 'w')
-    except:
-        exit(1, 'Could not open file %s\n' % gpi2FileName)
             
     # Log all SQL 
     db.set_sqlLogFunction(db.sqlLogAll)
@@ -222,22 +208,6 @@ def processGPI():
         #
         if taxon != 'NCBITaxon:10090':
             continue
-
-        #
-        # missing MGI:xxxx && protein_complex
-        #
-        if mgiId.find('MGI:') < 0 and prtype == 'protein_complex':
-            gpi2File.write(prId + '\t')
-            gpi2File.write(symbol + '\t')
-            gpi2File.write(name + '\t')
-            gpi2File.write(synonym + '\t')
-            gpi2File.write('GO:0032991' + '\t')
-            gpi2File.write(taxon + '\t')
-            gpi2File.write('\t')
-            gpi2File.write('\t')
-            gpi2File.write('\t')
-            gpi2File.write('\t')
-            gpi2File.write('\n')
 
         #
         # missing MGI:xxxx
@@ -286,7 +256,6 @@ def closeFiles():
     gpiFile.close()
     vocFile.close()
     annotFile.close()
-    gpi2File.close()
 
     return
 

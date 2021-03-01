@@ -51,10 +51,6 @@ INFILE_NAME_VOC=${INPUTDIR}/provoc.txt
 ANNOTINPUTFILE=${INPUTDIR}/proannot.txt
 export INFILE_NAME_VOC ANNOTINPUTFILE
 
-# output file for reports_db/daily/GO_gpi_2.0.py
-OUTPUT_GPI2=${OUTPUTDIR}/gpi2.txt
-export OUTPUT_GPI2
-
 #  Complete path name of the log files
 LOG_FILE=${LOGDIR}/proisoform.log
 LOG_PROC=${LOGDIR}/proisoform.proc.log
