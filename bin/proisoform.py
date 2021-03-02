@@ -221,15 +221,10 @@ def processGPI():
         if taxon != 'NCBITaxon:10090':
             continue
 
-        # 03/01/2021
-        # per David Hill:  Darren is not including the complexes at the moment
-        # so, the gpi2File will be empty
-        # leave this code as the complexes will probably reappear
         #
-        # missing MGI:xxxx && protein_complex
+        # missing MGI:xxxx && GO:0032991
         #
-        if mgiId.find('MGI:') < 0 and prtype == 'protein_complex':
-            taxon = taxon.replace('taxon', 'NCBITaxon')
+        if mgiId.find('MGI:') < 0 and prtype == 'GO:0032991':
             gpi2File.write(prId + '\t')
             gpi2File.write(symbol + '\t')
             gpi2File.write(name + '\t')
