@@ -222,14 +222,14 @@ def processGPI():
             continue
 
         #
-        # missing MGI:xxxx && GO:0032991
+        # missing MGI:xxxx && contains GO:0032991
         #
         if mgiId.find('MGI:') < 0 and prtype == 'GO:0032991':
             gpi2File.write(prId + '\t')
             gpi2File.write(symbol + '\t')
             gpi2File.write(name + '\t')
             gpi2File.write(synonym + '\t')
-            gpi2File.write('GO:0032991' + '\t')
+            gpi2File.write(prtype + '\t')
             gpi2File.write(taxon + '\t')
             gpi2File.write('\t')
             gpi2File.write('\t')
