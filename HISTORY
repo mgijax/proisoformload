@@ -1,5 +1,11 @@
 ${MIRROR_WGET}/download_package purl.obolibrary.org.pr
 
+TAG: proisoformload-6-0-19-1
+DATE: 06/13/2021
+STAFF: lec
+CHANGES: 
+wts2-894/proisoformload/simple full -> simple inc
+
 TAG: proisoformload-6-0-16-4
 TAG: proisoformload-6-0-16-3
 DATE: 03/01/2021

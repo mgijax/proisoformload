@@ -95,11 +95,9 @@ checkStatus ${STAT} "${ANNOTLOAD} ${PROISOFORMLOAD}/annotloaddelete.config"
 #
 cd ${OUTPUTDIR}
 echo "Running vocload to load Proteoform" >> ${LOG_DIAG}
-${PG_MGD_DBSCHEMADIR}/key/VOC_Term_drop.object &>> ${LOG}
-${VOCLOAD}/runSimpleFullLoad.sh ${PROISOFORMLOAD}/vocload.config &>> ${LOG}
-${PG_MGD_DBSCHEMADIR}/key/VOC_Term_create.object &>> ${LOG}
+${VOCLOAD}/runSimpleIncLoad.sh ${PROISOFORMLOAD}/vocload.config &>> ${LOG}
 STAT=$?
-checkStatus ${STAT} "${VOCLOAD}/runSimpleFullLoad.sh ${PROISOFORMLOAD}/vocload.config"
+checkStatus ${STAT} "${VOCLOAD}/runSimpleIncLoad.sh ${PROISOFORMLOAD}/vocload.config"
 
 #
 # run annotation load
