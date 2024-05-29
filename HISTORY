@@ -1,5 +1,11 @@
 ${MIRROR_WGET}/download_package purl.obolibrary.org.pr
 
+TAG: proisoformload-6-0-23-1
+DATE: 05/29/2024
+STAFF: lec
+CHANGES: 
+remove david.hill/retired
+
 TAG: proisoformload-6-0-22-1
 DATE: 02/03/2023
 STAFF: lec

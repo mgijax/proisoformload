@@ -88,7 +88,7 @@ if [ "${INSTALL_TYPE}" = "dev" ]
 then
 MAIL_LOG_CUR="${USER}"
 else
-MAIL_LOG_CUR="${USER},david.hill@jax.org"
+MAIL_LOG_CUR="${USER}"
 fi
 export MAIL_LOG_CUR
 
